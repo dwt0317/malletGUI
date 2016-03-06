@@ -272,7 +272,7 @@ public class MainWindow extends JFrame{
 		JButton imp_advance_btn = new JButton("Advance");
 		imp_advance_btn.addMouseListener(new MouseAdapter() {
 			@Override
-			//	鑾峰彇骞惰缃甶mporting鐨勯珮绾ч�夐」
+			//	鑾峰彇骞惰缃甶mporting鐨勯珮绾ч�夐」 333
 			public void mouseClicked(MouseEvent arg0) {
 				AdvanceFrame adf= new AdvanceFrame(getSelectedFunction());
 				adf.setVisible(true);
