@@ -517,7 +517,7 @@ public class MainWindow extends JFrame{
 	
 
 	/**
-	 * 鐐瑰嚮run button鏃惰皟鐢ㄨ鏂规硶...
+	 * 鐐瑰嚮run button鏃惰皟鐢ㄨ鏂规硶...222
 	 */
 	private void Run(){
 		String[] result=null;	
