@@ -1,0 +1,18 @@
+stoplist-file
+save-text-in-source
+token-regex
+extra-stopwords
+keep-sequence-bigrams true
+token-pipe
+print-output
+skip-header
+skip-html
+encoding
+fv-pipe
+gram-sizes
+preserve-case
+binary-features
+config
+string-pipe
+prefix-code
+use-pipe-from

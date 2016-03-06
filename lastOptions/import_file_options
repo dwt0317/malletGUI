@@ -1,0 +1,14 @@
+stoplist-file
+data
+token-regex
+extra-stopwords
+keep-sequence-bigrams true
+print-output
+label
+encoding
+line-regex
+name
+preserve-case
+config
+prefix-code
+use-pipe-from

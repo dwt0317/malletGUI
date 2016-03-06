@@ -1,0 +1,14 @@
+prefix-code text
+config text
+line-regex text
+label integer
+name integer
+data integer
+use-pipe-from text
+keep-sequence-bigrams boolean
+stoplist-file text
+extra-stopwords text
+preserve-case boolean
+encoding text
+token-regex text
+print-output boolean

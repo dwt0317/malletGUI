@@ -1,0 +1,15 @@
+continue-training
+gaussian-variance
+viterbi-output
+allowed
+forbidden
+threads
+default-label
+include-input
+cache-size
+random-seed
+fully-connected
+feature-induction
+config
+prefix-code
+n-best

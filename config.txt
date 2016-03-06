@@ -1,0 +1,5 @@
+4
+NaiveBayes
+MaxEnt
+C45
+DecisionTree

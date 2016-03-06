@@ -1,0 +1,18 @@
+prefix-code text
+config text
+use-pipe-from text
+preserve-case boolean
+stoplist-file text
+extra-stopwords text
+skip-header boolean
+skip-html boolean
+binary-features boolean
+gram-sizes text
+keep-sequence-bigrams boolean
+save-text-in-source boolean
+string-pipe text
+token-pipe text
+fv-pipe Pipe text
+encoding text
+token-regex text
+print-output boolean

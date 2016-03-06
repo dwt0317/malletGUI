@@ -1,0 +1,15 @@
+prefix-code text
+config text
+gaussian-variance decimal
+random-seed integer
+forbidden text
+allowed text
+default-label text
+viterbi-output boolean
+fully-connected boolean
+continue-training boolean
+n-best integer
+cache-size integer
+include-input boolean
+feature-induction boolean
+threads integer
