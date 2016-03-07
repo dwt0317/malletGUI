@@ -194,12 +194,6 @@ public class MainWindow extends JFrame{
 		btnBrowse.setBounds(420, 56, 93, 25);
 		panel_dataInput.add(btnBrowse);
 		
-		JButton btnAdvance_1 = new JButton("Advance");
-		btnAdvance_1.setBackground(UIManager.getColor("Button.background"));
-		btnAdvance_1.setFont(new Font("Cambria", Font.PLAIN, 16));
-		btnAdvance_1.setBounds(420, 102, 93, 25);
-		panel_dataInput.add(btnAdvance_1);
-		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setFont(new Font("Cambria", Font.PLAIN, 16));
 		tabbedPane.setBounds(10, 145, 565, 250);
@@ -218,7 +212,7 @@ public class MainWindow extends JFrame{
 		txtImportType.setBackground(SystemColor.menu);
 		panel_import.add(txtImportType);
 		
-		String[] imp_type={"Directory","File","SVMlight"};
+		String[] imp_type={"Directory","File"};
 		imp_combo_imp_ty = new JComboBox(imp_type);
 		imp_combo_imp_ty.setFont(new Font("Cambria", Font.PLAIN, 16));
 		imp_combo_imp_ty.setBounds(162, 13, 151, 23);
