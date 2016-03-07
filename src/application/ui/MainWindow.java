@@ -584,6 +584,19 @@ public class MainWindow extends JFrame{
 		seq_model_btn.setBounds(409, 126, 93, 25);
 		panel_seq.add(seq_model_btn);
 		
+		JButton seq_adv_btn = new JButton("Advance");
+		seq_adv_btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				AdvanceFrame adf= new AdvanceFrame(getSelectedFunction());
+				adf.setVisible(true);
+				advancedOptionsMap.put(adf.getAction(), adf.getOptionMap());
+			}
+		});
+		seq_adv_btn.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_adv_btn.setBounds(409, 174, 93, 29);
+		panel_seq.add(seq_adv_btn);
+		
 		
 		//output
 		JScrollPane panel_output = new JScrollPane();
@@ -677,7 +690,7 @@ public class MainWindow extends JFrame{
 
 		}
 		
-		// classifier
+		// classify-trainer
 		else if (tabbedPane.getSelectedIndex() == 1){	//		
 			//判断路径是否缺失
 			if((txtInput.getText()!=null&&!txtInput.getText().equals(""))&&(txtOutput.getText()!=null&&!txtOutput.getText().equals(""))){		
@@ -693,6 +706,7 @@ public class MainWindow extends JFrame{
 			}
 				
 		}
+		//classify
 		else if(tabbedPane.getSelectedIndex() == 2){
 			if(textField.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "No sample file selected!", "Alert", JOptionPane.ERROR_MESSAGE);
@@ -720,14 +734,21 @@ public class MainWindow extends JFrame{
 				if(seq_model_txt.getText()!=null&&!seq_model_txt.getText().equals(""))
 					seq.setModel_file(seq_model_txt.getText());
 				else{
-					JOptionPane.showMessageDialog(null, "Please select a model file!");
+					JOptionPane.showMessageDialog(null, "No model file is selected!");
 					return;
 				}
 			}
-			if(txtInput.getText()!=null||!txtInput.getText().equals("")){
-				seq.setSampleFile(txtInput.getText());
-			}else  
-				JOptionPane.showMessageDialog(null, "No sample file selected!", "Alert", JOptionPane.ERROR_MESSAGE);
+			if(txtInput.getText()!=null&&!txtInput.getText().equals("")){
+				File f = new File(txtInput.getText());
+				if(!f.isFile()){
+					JOptionPane.showMessageDialog(null, "A file should be selected!", "Alert", JOptionPane.ERROR_MESSAGE);
+					return;
+				}else
+					seq.setSampleFile(txtInput.getText());
+			}else  {
+				JOptionPane.showMessageDialog(null, "No sample file is selected!", "Alert", JOptionPane.ERROR_MESSAGE);
+			}
+				
 			result=SeqTagging.getInstance().run();
 			print2text(result,"Sequence tagging");
 				
