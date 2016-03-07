@@ -337,7 +337,7 @@ public class MainWindow extends JFrame{
 		panel_trainer.add(cl_txtTrialsnumber);
 		cl_txtTrialsnumber.setColumns(10);
 		
-		String[] classify_type = {"","File","Directory","Svmlight"};
+		String[] classify_type = {"","File","Directory"};
 		
 		final SpinnerNumberModel cl_tr_snm = new SpinnerNumberModel(0,0,null,1);
 		JSpinner cl_trials_spin = new JSpinner(cl_tr_snm);
