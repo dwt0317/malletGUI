@@ -13,8 +13,8 @@ import cc.mallet.fst.SimpleTagger;
 public class SeqTagging {
 	//以下是sequence tagging 中常用的option
 	private String train="false";
-	private String model_file="nouncrf";
-	private String sampleFile="sample";
+	private String model_file="";
+	private String sampleFile="";
 	private HashMap<String,String> optionMap= new HashMap<String,String>();
 	private HashMap<String,String> advOptionMap= new HashMap<String,String>();
 	private static SeqTagging instance = null;
