@@ -150,16 +150,14 @@ public class MainWindow extends JFrame{
 		l_OutputPath.setColumns(10);
 		
 		txtInput = new JTextField();
-		txtInput.setEditable(false);
-		//		默锟斤拷锟斤拷锟斤拷路锟斤拷为锟斤拷前目录
-//		txtInput.setText(System.getProperty("user.dir"));
+		
+		//		import默认为程序当前目录
 		ImportDir.getInstance().setImportPath(System.getProperty("user.dir"));
 		txtInput.setBounds(135, 10, 275, 25);
 		panel_dataInput.add(txtInput);
 		txtInput.setColumns(10);
 		
 		txtOutput = new JTextField();
-		txtOutput.setEditable(false);
 		txtOutput.setBounds(135, 56, 275, 25);
 		//	
 //		txtOutput.setText(System.getProperty("user.dir")+"\\tmp.classifier");
@@ -272,7 +270,7 @@ public class MainWindow extends JFrame{
 		JButton imp_advance_btn = new JButton("Advance");
 		imp_advance_btn.addMouseListener(new MouseAdapter() {
 			@Override
-			//	鑾峰彇骞惰缃甶mporting鐨勯珮绾ч�夐」 333
+			//点击打开importing的高级选项页面
 			public void mouseClicked(MouseEvent arg0) {
 				AdvanceFrame adf= new AdvanceFrame(getSelectedFunction());
 				adf.setVisible(true);
@@ -301,7 +299,7 @@ public class MainWindow extends JFrame{
 		panel_trainer.add(cl_txtClassifiertrainer);
 		cl_txtClassifiertrainer.setColumns(10);
 		
-		//	閫夋嫨classifyTrainer
+		//	classifyTrainer
 		final JComboBox cl_trainer_combo = new JComboBox(classifyTrainer);
 		cl_trainer_combo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -517,18 +515,22 @@ public class MainWindow extends JFrame{
 	
 
 	/**
-	 * 鐐瑰嚮run button鏃惰皟鐢ㄨ鏂规硶...222
+	 * 点击run button
 	 */
 	private void Run(){
 		String[] result=null;	
 		
-		//	濡傛灉閫夋嫨鐨勬槸import data
+		//	如果在importing选项卡
 		if(tabbedPane.getSelectedIndex() == 0){
-			if(txtInput.getText()!=null||!txtInput.getText().equals("")){
+			//判断路径是否缺失
+			if((txtInput.getText()!=null&&!txtInput.getText().equals(""))&&(txtOutput.getText()!=null&&!txtOutput.getText().equals(""))){
 				Importing.getInstance().setInputPath(txtInput.getText());		
 				Importing.getInstance().setOutputPath(txtOutput.getText());
-			}else  //(Component parentComponent, Object message, String title, int messageType, Icon icon) 
-				JOptionPane.showMessageDialog(null, "No data file selected!", "Alert", JOptionPane.ERROR_MESSAGE);
+			}else  {
+				JOptionPane.showMessageDialog(null, "Path is incomplete!", "Alert", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+				
 			if(imp_combo_imp_ty.getSelectedItem().toString().equals("File")){
 				File f = new File(txtInput.getText());
 				if(!f.isFile()){
@@ -556,16 +558,19 @@ public class MainWindow extends JFrame{
 		
 		// classifier
 		else if (tabbedPane.getSelectedIndex() == 1){	//		
-			//鏆傛椂璁剧疆涓哄湪classifier妯″紡涓嬶紝input鍙兘涓簃allet鏂囦欢
-			if(txtInput.getText()!=null||!txtInput.getText().equals("")){		
+			//判断路径是否缺失
+			if((txtInput.getText()!=null&&!txtInput.getText().equals(""))&&(txtOutput.getText()!=null&&!txtOutput.getText().equals(""))){		
 				trainerClassifier.getInstance().setImportFile(txtInput.getText());
 				trainerClassifier.getInstance().setOuputFile(txtOutput.getText());
 				result = trainerClassifier.getInstance().run();
 				print2text(result, "Train Classifier");
 							
 			}
-			else
-				JOptionPane.showMessageDialog(null, "No mallet file selected!", "Alert", JOptionPane.ERROR_MESSAGE);	
+			else{
+				JOptionPane.showMessageDialog(null, "Path is incomplete!", "Alert", JOptionPane.ERROR_MESSAGE);	
+				return;
+			}
+				
 		}
 		else if(tabbedPane.getSelectedIndex() == 2){
 			if(textField.getText().equals("")){
@@ -594,12 +599,12 @@ public class MainWindow extends JFrame{
 	
 
 	/**
-	 * 灏嗙▼搴忔墽琛屼俊鎭墦鍗�
-	 * @param result 锛堣繍琛岀粨鏋滐級
-	 * @param action 锛堣繘琛岀殑鎿嶄綔锛�
+	 * 将执行结果打印
+	 * @param result 程序运行结果集
+	 * @param action 程序进行的操作
 	 */
 	private void print2text(String[] result, String action){
-		//命令执行的时间
+		//命令执行的时间,获取当前系统时间
 		String time ="";
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		time = df.format(new Date());
