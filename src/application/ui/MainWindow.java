@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JCheckBoxMenuItem;
@@ -21,7 +22,9 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 
@@ -98,6 +101,16 @@ public class MainWindow extends JFrame{
 	private JTextField txtClassifierPath;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	//sequence tagging
+	private JTextField seq_txtTrain;
+	private JTextField seq_txtIterations;
+	private JTextField seq_txtPropotion;
+	private JTextField seq_txtModelFile;
+	private JSpinner seq_pro_spin;
+	private JTextField seq_model_txt;
+	private JComboBox seq_train_combo;
+	
 	public MainWindow() {
 		String[] tf_choice={"false","true"};
 		String[] classifyTrainer = {"NaiveBayes","MaxEnt","C45","DecisionTree"};
@@ -378,25 +391,9 @@ public class MainWindow extends JFrame{
 	
 		
 		
-		
-		JScrollPane panel_output = new JScrollPane();
-		panel_output.addComponentListener(new ComponentAdapter() {
-			//	褰搊utput閫夐」鍗℃墦寮�鏃讹紝text area 鎷夊ぇ
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				tabbedPane.setBounds(10, 145, 565, 420);
-//				outputArea.setText("1");
-			}
-			@Override
-			public void componentHidden(ComponentEvent arg0) {
-				tabbedPane.setBounds(10, 145, 565, 250);
-			}
-		});
-		//	璁剧疆iteration
-		final SpinnerNumberModel seq_iter_snm = new SpinnerNumberModel(0, 0, 1000, 10);
-		//	璁剧疆train_proportion
-		final SpinnerNumberModel seq_tr_snm = new SpinnerNumberModel(0.0, 0.0, 1, 0.1);
-		
+
+
+		//classify
 		JPanel panel_classify = new JPanel();
 		panel_classify.setLayout(null);
 		tabbedPane.addTab("Classifer", null, panel_classify, null);
@@ -475,6 +472,132 @@ public class MainWindow extends JFrame{
 		button.setBounds(404, 56, 91, 25);
 		panel_classify.add(button);
 		
+		//sequence tagging
+		JPanel panel_seq = new JPanel();
+		panel_seq.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				txtOutput.setEnabled(false);
+			}
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				txtOutput.setEnabled(true);
+				txtOutput.setEditable(true);
+			}
+		});
+		tabbedPane.addTab("Sequence Tagging", null, panel_seq, null);
+		panel_seq.setLayout(null);
+		
+		seq_txtTrain = new JTextField();
+		seq_txtTrain.setBounds(14, 14, 111, 20);
+		seq_txtTrain.setText("Train");
+		seq_txtTrain.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_txtTrain.setColumns(10);
+		seq_txtTrain.setBorder(null);
+		seq_txtTrain.setBackground(SystemColor.menu);
+		panel_seq.add(seq_txtTrain);
+		
+		seq_txtIterations = new JTextField();
+		seq_txtIterations.setText("Iterations");
+		seq_txtIterations.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_txtIterations.setColumns(10);
+		seq_txtIterations.setBorder(null);
+		seq_txtIterations.setBackground(SystemColor.menu);
+		seq_txtIterations.setBounds(14, 48, 111, 20);
+		panel_seq.add(seq_txtIterations);
+		
+		seq_txtPropotion = new JTextField();
+		seq_txtPropotion.setText("Proportion");
+		seq_txtPropotion.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_txtPropotion.setColumns(10);
+		seq_txtPropotion.setBorder(null);
+		seq_txtPropotion.setBackground(SystemColor.menu);
+		seq_txtPropotion.setBounds(14, 85, 111, 20);
+		panel_seq.add(seq_txtPropotion);
+		
+		seq_txtModelFile = new JTextField();
+		seq_txtModelFile.setText("Model file");
+		seq_txtModelFile.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_txtModelFile.setColumns(10);
+		seq_txtModelFile.setBorder(null);
+		seq_txtModelFile.setBackground(SystemColor.menu);
+		seq_txtModelFile.setBounds(14, 129, 111, 20);
+		panel_seq.add(seq_txtModelFile);
+		//	设置是否训练
+		seq_train_combo = new JComboBox(tf_choice);
+		seq_train_combo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED){
+					System.out.println(seq_train_combo.getSelectedItem().toString());
+					SeqTagging.getInstance().setTrain(seq_train_combo.getSelectedItem().toString());
+				}
+			}
+		});
+		seq_train_combo.setSelectedItem(null);
+		seq_train_combo.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_train_combo.setBounds(130, 12, 151, 23);
+		panel_seq.add(seq_train_combo);
+		//	设置iteration
+		final SpinnerNumberModel seq_iter_snm = new SpinnerNumberModel(0, 0, 1000, 10);
+		JSpinner seq_iter_spin = new JSpinner(seq_iter_snm);
+		seq_iter_spin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println(seq_iter_snm.getValue());
+				if ((Integer)seq_iter_snm.getNumber() == 0) 
+					SeqTagging.getInstance().getOptionMap().put("iterations", null);
+				else 
+					SeqTagging.getInstance().getOptionMap().put("iterations", seq_iter_snm.getNumber().toString());
+			}
+		});
+		seq_iter_spin.setBounds(130, 48, 81, 22);
+		panel_seq.add(seq_iter_spin);
+		//	设置train_proportion
+		final SpinnerNumberModel seq_tr_snm = new SpinnerNumberModel(0.0, 0.0, 1, 0.1);
+		seq_pro_spin = new JSpinner(seq_tr_snm);
+		seq_pro_spin.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println(cl_tp_snm.getValue());
+				if ((Double)seq_tr_snm.getNumber() == 0.0) 
+					SeqTagging.getInstance().getOptionMap().put("training-proportion", null);
+				else 
+					SeqTagging.getInstance().getOptionMap().put("training-proportion", seq_tr_snm.getNumber().toString());
+			}
+		});
+		seq_pro_spin.setBounds(130, 83, 81, 22);
+		panel_seq.add(seq_pro_spin);
+		
+		seq_model_txt = new JTextField();
+		seq_model_txt.setColumns(10);
+		seq_model_txt.setBounds(130, 127, 254, 25);	
+		panel_seq.add(seq_model_txt);
+		
+		JButton seq_model_btn = new JButton("Browse");
+		seq_model_btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String fileBeRead = getPath();
+				seq_model_txt.setText(fileBeRead+"\n");
+			}
+		});
+		seq_model_btn.setFont(new Font("Cambria", Font.PLAIN, 16));
+		seq_model_btn.setBackground(UIManager.getColor("Button.background"));
+		seq_model_btn.setBounds(409, 126, 93, 25);
+		panel_seq.add(seq_model_btn);
+		
+		
+		//output
+		JScrollPane panel_output = new JScrollPane();
+		panel_output.addComponentListener(new ComponentAdapter() {
+		
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				tabbedPane.setBounds(10, 145, 565, 420);
+			}
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				tabbedPane.setBounds(10, 145, 565, 250);
+			}
+		});
 		tabbedPane.addTab("Output", null, panel_output, null);
 		
 		outputArea = new JTextArea();
@@ -505,6 +628,10 @@ public class MainWindow extends JFrame{
 		scrollPane_log.setViewportView(txtrLala);
 		btnRun.setBounds(460, 569, 115, 30);
 		contentPane.add(btnRun);
+		
+		
+		
+		
 	}
 	
 
@@ -586,7 +713,25 @@ public class MainWindow extends JFrame{
 		}
 			
 		//sequence tagging
-
+		else if(tabbedPane.getSelectedIndex()==3){
+			SeqTagging seq=SeqTagging.getInstance();
+			seq.setModel_file(seq_model_txt.getText());
+			if(seq_train_combo.getSelectedItem()!=null){
+				if(seq_model_txt.getText()!=null&&!seq_model_txt.getText().equals(""))
+					seq.setModel_file(seq_model_txt.getText());
+				else{
+					JOptionPane.showMessageDialog(null, "Please select a model file!");
+					return;
+				}
+			}
+			if(txtInput.getText()!=null||!txtInput.getText().equals("")){
+				seq.setSampleFile(txtInput.getText());
+			}else  
+				JOptionPane.showMessageDialog(null, "No sample file selected!", "Alert", JOptionPane.ERROR_MESSAGE);
+			result=SeqTagging.getInstance().run();
+			print2text(result,"Sequence tagging");
+				
+		}
 	}
 	
 	
@@ -605,8 +750,10 @@ public class MainWindow extends JFrame{
 		outputArea.append(time+"\r\n");
 
 		if (result[3].equals("1")){
-			outputArea.append(action + " Failed.\n\n\n");
 			outputArea.setSelectionStart(outputArea.getText().length());
+			outputArea.append(result[1]);
+			outputArea.setSelectionStart(outputArea.getText().length());
+			outputArea.append(action + " Failed.\n\n\n");
 		}
 		else{
 			outputArea.setSelectionStart(outputArea.getText().length());
@@ -621,8 +768,8 @@ public class MainWindow extends JFrame{
 	
 	
 	/**
-	 * 鑾峰彇鏂囦欢/鏂囦欢澶硅矾寰�
-	 * @return 璺緞
+	 * 获取文件（夹）路径
+	 * @return 文件（夹）path
 	 */
 	private String getPath() {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -635,12 +782,12 @@ public class MainWindow extends JFrame{
         	File f = new File(path);
         	if(f.isDirectory()){
         		isFile = false;
-        		txtrLala.append("Import Dir:\n"+path+"\n");
+        		txtrLala.append("Directory selected:\n"+path+"\n");
         	}
         		
         	else{
         		isFile = true;
-        		txtrLala.append("Import File:\n"+path+"\n");
+        		txtrLala.append("File selected:\n"+path+"\n");
         	}
         	return path;
         		
@@ -664,7 +811,7 @@ public class MainWindow extends JFrame{
 		});
 	}
 	
-	//鏍规嵁tab鍒ゆ柇搴旇瀵煎叆鍝簺advanced options
+	//获取当前选择的function
 	private String getSelectedFunction(){
 		int functionIndex=tabbedPane.getSelectedIndex();
 		String action=null;
@@ -677,7 +824,7 @@ public class MainWindow extends JFrame{
 				action="import_svm";
 		}else if(functionIndex==1){
 			action="classifier";
-		}else if(functionIndex==2)
+		}else if(functionIndex==3)
 			action="seq_tagging";
 		return action;
 	}
