@@ -8,7 +8,7 @@ default-label
 include-input
 cache-size
 random-seed
-fully-connected
+fully-connected false
 feature-induction
 config
 prefix-code

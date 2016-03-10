@@ -110,6 +110,7 @@ public class MainWindow extends JFrame{
 	private JSpinner seq_pro_spin;
 	private JTextField seq_model_txt;
 	private JComboBox seq_train_combo;
+	private JTextField textField_3;
 	
 	public MainWindow() {
 		String[] tf_choice={"false","true"};
@@ -132,7 +133,7 @@ public class MainWindow extends JFrame{
 		contentPane.setLayout(null);
 		
 		JPanel panel_dataInput = new JPanel();
-		panel_dataInput.setBounds(10, 10, 565, 133);
+		panel_dataInput.setBounds(10, 10, 565, 95);
 		panel_dataInput.setLayout(null);
 		contentPane.add(panel_dataInput);
 		
@@ -209,7 +210,7 @@ public class MainWindow extends JFrame{
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setFont(new Font("Cambria", Font.PLAIN, 16));
-		tabbedPane.setBounds(10, 145, 565, 250);
+		tabbedPane.setBounds(10, 118, 565, 277);
 		contentPane.add(tabbedPane);
 		
 		JPanel panel_import = new JPanel();
@@ -611,6 +612,29 @@ public class MainWindow extends JFrame{
 				tabbedPane.setBounds(10, 145, 565, 250);
 			}
 		});
+		
+		JPanel panel_topic = new JPanel();
+		panel_topic.setLayout(null);
+		tabbedPane.addTab("Topic modeling", null, panel_topic, null);
+		
+		textField_3 = new JTextField();
+		textField_3.setText("Import type");
+		textField_3.setFont(new Font("Cambria", Font.PLAIN, 16));
+		textField_3.setColumns(10);
+		textField_3.setBorder(null);
+		textField_3.setBackground(SystemColor.menu);
+		textField_3.setBounds(14, 14, 88, 21);
+		panel_topic.add(textField_3);
+		
+		JComboBox comboBox = new JComboBox(new Object[]{});
+		comboBox.setFont(new Font("Cambria", Font.PLAIN, 16));
+		comboBox.setBounds(162, 13, 151, 23);
+		panel_topic.add(comboBox);
+		
+		JButton button_1 = new JButton("Advance");
+		button_1.setFont(new Font("Cambria", Font.PLAIN, 16));
+		button_1.setBounds(359, 14, 105, 29);
+		panel_topic.add(button_1);
 		tabbedPane.addTab("Output", null, panel_output, null);
 		
 		outputArea = new JTextArea();
