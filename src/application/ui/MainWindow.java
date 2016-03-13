@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -30,6 +31,7 @@ import javax.swing.*;
 
 import Function.Importing;
 import Function.SeqTagging;
+import Function.TopicModeling;
 import Function.trainerClassifier;
 
 import java.awt.event.ActionListener;
@@ -110,7 +112,8 @@ public class MainWindow extends JFrame{
 	private JSpinner seq_pro_spin;
 	private JTextField seq_model_txt;
 	private JComboBox seq_train_combo;
-	private JTextField textField_3;
+	private JRadioButton rdbtnTrainTopics;
+	private JRadioButton rdbtnInferTopics;
 	
 	public MainWindow() {
 		String[] tf_choice={"false","true"};
@@ -595,8 +598,72 @@ public class MainWindow extends JFrame{
 			}
 		});
 		seq_adv_btn.setFont(new Font("Cambria", Font.PLAIN, 16));
-		seq_adv_btn.setBounds(409, 174, 93, 29);
+		seq_adv_btn.setBounds(409, 67, 93, 29);
 		panel_seq.add(seq_adv_btn);
+		
+		
+		//Topic modeling
+		JPanel panel_topic = new JPanel();
+		panel_topic.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				txtOutput.setEnabled(false);
+			}
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				txtOutput.setEnabled(true);
+			}
+		});
+		panel_topic.setLayout(null);
+		tabbedPane.addTab("Topic modeling", null, panel_topic, null);
+		
+		
+		
+		rdbtnTrainTopics = new JRadioButton("Train Topics");
+		rdbtnTrainTopics.setFont(new Font("Cambria", Font.PLAIN, 16));
+		rdbtnTrainTopics.setBounds(27, 39, 157, 27);
+		rdbtnTrainTopics.setSelected(true);
+		panel_topic.add(rdbtnTrainTopics);
+		
+		rdbtnInferTopics = new JRadioButton("Infer Topics");
+		rdbtnInferTopics.setFont(new Font("Cambria", Font.PLAIN, 16));
+		rdbtnInferTopics.setBounds(27, 88, 157, 27);
+		panel_topic.add(rdbtnInferTopics);
+		
+		final ButtonGroup tmActionBtnGroup = new ButtonGroup();
+		tmActionBtnGroup.add(rdbtnTrainTopics);
+		tmActionBtnGroup.add(rdbtnInferTopics);
+		
+		
+		JButton tmBtnOptions = new JButton("Options");
+		tmBtnOptions.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String action="train_topics";  
+				Enumeration<AbstractButton> radioBtns=tmActionBtnGroup.getElements();  
+				while (radioBtns.hasMoreElements()) {  
+				    AbstractButton btn = radioBtns.nextElement();  
+				    if(btn.isSelected()){  
+				    	action=btn.getText();  
+				        break;  
+				    }  
+				}  
+				action = action.toLowerCase();
+				action = action.replace(" ", "_");
+				TopicModeling.getInstance().setAction(action);
+				AdvanceFrame adf= new AdvanceFrame(action);
+				adf.setVisible(true);
+				advancedOptionsMap.put(adf.getAction(), adf.getOptionMap());
+			}
+			
+		});
+		tmBtnOptions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		tmBtnOptions.setFont(new Font("Cambria", Font.PLAIN, 16));
+		tmBtnOptions.setBounds(395, 38, 114, 29);
+		panel_topic.add(tmBtnOptions);
 		
 		
 		//output
@@ -612,29 +679,6 @@ public class MainWindow extends JFrame{
 				tabbedPane.setBounds(10, 145, 565, 250);
 			}
 		});
-		
-		JPanel panel_topic = new JPanel();
-		panel_topic.setLayout(null);
-		tabbedPane.addTab("Topic modeling", null, panel_topic, null);
-		
-		textField_3 = new JTextField();
-		textField_3.setText("Import type");
-		textField_3.setFont(new Font("Cambria", Font.PLAIN, 16));
-		textField_3.setColumns(10);
-		textField_3.setBorder(null);
-		textField_3.setBackground(SystemColor.menu);
-		textField_3.setBounds(14, 14, 88, 21);
-		panel_topic.add(textField_3);
-		
-		JComboBox comboBox = new JComboBox(new Object[]{});
-		comboBox.setFont(new Font("Cambria", Font.PLAIN, 16));
-		comboBox.setBounds(162, 13, 151, 23);
-		panel_topic.add(comboBox);
-		
-		JButton button_1 = new JButton("Advance");
-		button_1.setFont(new Font("Cambria", Font.PLAIN, 16));
-		button_1.setBounds(359, 14, 105, 29);
-		panel_topic.add(button_1);
 		tabbedPane.addTab("Output", null, panel_output, null);
 		
 		outputArea = new JTextArea();
@@ -642,6 +686,8 @@ public class MainWindow extends JFrame{
 		outputArea.setEditable(false);
 		panel_output.setViewportView(outputArea);
 		
+		
+		//Run
 		JButton btnRun = new JButton("Run");
 		btnRun.addMouseListener(new MouseAdapter() {
 			@Override
@@ -772,10 +818,29 @@ public class MainWindow extends JFrame{
 			}else  {
 				JOptionPane.showMessageDialog(null, "No sample file is selected!", "Alert", JOptionPane.ERROR_MESSAGE);
 			}
+			if(advancedOptionsMap.get("seq_tagging")!=null)
+				seq.setAdvOptionMap(advancedOptionsMap.get("seq_tagging"));
 				
 			result=SeqTagging.getInstance().run();
 			print2text(result,"Sequence tagging");
 				
+		}
+		
+		//topic modeling
+		else if(tabbedPane.getSelectedIndex()==4){
+			TopicModeling tm = TopicModeling.getInstance();
+			//判断路径是否缺失
+			if((txtInput.getText()!=null&&!txtInput.getText().equals(""))){
+				tm.setInputPath(txtInput.getText());		
+			}else  {
+				JOptionPane.showMessageDialog(null, "A file should be selected!", "Alert", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if(advancedOptionsMap.get(tm.getAction())!=null)
+				tm.setAdvOptionMap(advancedOptionsMap.get(tm.getAction()));
+			
+			result=tm.run();
+			print2text(result,"Topic modeling");
 		}
 	}
 	

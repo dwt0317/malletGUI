@@ -216,7 +216,8 @@ public class TopicTrainer {
 				Object data = training.get(0).getData();
 				if (! (data instanceof FeatureSequence)) {
 					logger.warning("Topic modeling currently only supports feature sequences: use --keep-sequence option when importing data.");
-					System.exit(1);
+					return;
+//					System.exit(1);
 				}
 			}
 

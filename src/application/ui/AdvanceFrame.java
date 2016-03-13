@@ -26,12 +26,15 @@ import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 
 import Function.trainerClassifier;
 import util.OptionHandler;
@@ -61,7 +64,7 @@ public class AdvanceFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdvanceFrame frame = new AdvanceFrame("import");
+					AdvanceFrame frame = new AdvanceFrame("seq_tagging");
 					//setVisible之后lastOptions就被清空了。。
 					frame.setVisible(true);
 					
@@ -132,13 +135,22 @@ public class AdvanceFrame extends JFrame {
 		optH.readLastOptions();
 		createOptionComp(optH.getOptionList());
 		renderOptionValue(optH.getLastOptions());
+		
+		//scroll panel的高度太高会导致格式混乱
+		int adjustHeight = 30 * optH.getOptionList().size();   
+		if(adjustHeight<500){
+			scrollPane.setBounds(0, 14, 518, adjustHeight);
+			btnConfirm.setBounds(268, adjustHeight+20, 113, 27);
+			btnClear.setBounds(408, adjustHeight+20, 100, 27);
+			setBounds(100, 100, 524, adjustHeight+90);
+		}
 	}
 	
 	
 	
 	
 	/**
-	 * 根据optionMap来生成面板，integer,decimal 为填数字，boolean为填t/f, text为填文本
+	 * 根据optionMap来生成面板，integer,decimal 为填数字，boolean为填t/f, text为填文本, filename 为选择文件
 	 * @param optionList
 	 */
 	public void createOptionComp(HashMap<String,String> optionList){
@@ -192,7 +204,22 @@ public class AdvanceFrame extends JFrame {
 				spinner.setPreferredSize(new Dimension(spinW,spinH));
 				spinner.setFont(new Font("Cambria", Font.PLAIN, 16));
 				optionPanel.add(spinner);
-			}else{
+			}else if(val.equals("filename")){
+				final JTextField filePath = new JTextField();
+				JButton btnBrowse = new JButton("Browse");
+				btnBrowse.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						String fileBeRead = getPath();
+						filePath.setText(fileBeRead+"\n");
+					}
+				});
+				filePath.setColumns(15);
+				filePath.setFont(new Font("Cambria", Font.PLAIN, 15));
+				optionPanel.add(filePath);
+				optionPanel.add(btnBrowse);
+			}
+			else{
 				JTextField jtext = new JTextField();
 				jtext.setPreferredSize(new Dimension(textW,textH));
 				jtext.setFont(new Font("Cambria", Font.PLAIN, 16));
@@ -230,10 +257,14 @@ public class AdvanceFrame extends JFrame {
 				JSpinner spinner =(JSpinner)obj;
 				SpinnerNumberModel snm = (SpinnerNumberModel) spinner.getModel();
 				snm.setValue(Double.valueOf(val));
+			}else if(obj instanceof JButton){
+				continue;
 			}else{
 				JTextField jtext =(JTextField)obj;
 				jtext.setText(val);
 			}
+			if(iter.hasNext()&&optionPanel.getComponent(i+1) instanceof JButton)
+				i+=1;
 			i+=2;
 		}
 
@@ -272,7 +303,9 @@ public class AdvanceFrame extends JFrame {
 				}else
 					lastOptions.put(optionLabel.getText(), null);
 					
-			}else{
+			}else if(obj instanceof JButton)
+				continue;			
+			else{
 				JTextField jtext =(JTextField)obj;
 				if(jtext.getText()!=null&&!jtext.getText().equals("")){
 					System.out.println(jtext.getText());
@@ -281,8 +314,31 @@ public class AdvanceFrame extends JFrame {
 				}else
 					lastOptions.put(optionLabel.getText(),null);
 			}
+			if(i!=count-1&&optionPanel.getComponent(i+1) instanceof JButton)
+				i+=1;
 		}
 	}
+	
+	/**
+	 * 获取文件（夹）路径
+	 * @return 文件（夹）path
+	 */
+	private String getPath() {
+		JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setDialogTitle("Select path");
+        fileChooser.setCurrentDirectory(new File("."));
+        
+        int result = fileChooser.showDialog(null, "OK");
+    	if (result == JFileChooser.FILES_ONLY) {
+        	String path=fileChooser.getSelectedFile().getPath();
+        	return path;     		
+        }else{
+        	JOptionPane.showMessageDialog(null, "Please select a file!", "Alert", JOptionPane.ERROR_MESSAGE);
+    		return null;
+        }  
+    }
+	
 	
 	
 	/**
@@ -317,10 +373,16 @@ public class AdvanceFrame extends JFrame {
 				JSpinner spinner =(JSpinner)obj;
 				SpinnerNumberModel snm = (SpinnerNumberModel) spinner.getModel();
 				snm.setValue(0.0);
-			}else{
+			}else if(obj instanceof JButton){
+				continue;
+			}
+			else{
 				JTextField jtext =(JTextField)obj;
 				jtext.setText(null);
 			}
+		
+			if(i!=count-1&&optionPanel.getComponent(i+1) instanceof JButton)
+				i+=1;
 		}
 		OptionHandler optH=OptionHandler.getIntance();
 		optH.writeLastOptions(lastOptions);

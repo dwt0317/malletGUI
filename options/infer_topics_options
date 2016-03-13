@@ -1,0 +1,9 @@
+config filename
+inferencer filename
+output-doc-topics filename
+doc-topics-threshold decimal
+doc-topics-max integer
+num-iterations integer
+sample-interval integer
+burn-in integer
+random-seed integer

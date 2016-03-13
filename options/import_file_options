@@ -1,12 +1,12 @@
 prefix-code text
-config text
+config filename
 line-regex text
 label integer
 name integer
 data integer
 use-pipe-from text
 keep-sequence-bigrams boolean
-stoplist-file text
+stoplist-file filename
 extra-stopwords text
 preserve-case boolean
 encoding text

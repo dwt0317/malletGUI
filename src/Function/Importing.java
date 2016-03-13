@@ -87,7 +87,6 @@ public class Importing {
 	
 		String [] args=(String[]) cmd.toArray(new String[cmd.size()]);
 		result=RunKit.run(args,action);
-		result=RunKit.run(args,action);
 		return result;
 	}
 

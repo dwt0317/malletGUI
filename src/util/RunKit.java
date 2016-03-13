@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import cc.mallet.fst.SimpleTagger;
+import cc.mallet.topics.tui.InferTopics;
+import cc.mallet.topics.tui.TopicTrainer;
 import cc.mallet.util.MalletLogger;
 import cc.mallet.classify.tui.Text2Vectors;
 import cc.mallet.classify.tui.Csv2Classify;
@@ -91,6 +93,12 @@ public class RunKit {
 	        }
 	        else if(function.equals("classifiySvmlight")){
 	        	SvmLight2Classify.main(args);
+	        }	
+	        else if(function.equals("train_topics")){
+	        	TopicTrainer.main(args);
+	        }		        
+	        else if(function.equals("infer_topics")){
+	        	InferTopics.main(args);
 	        }	
 	        
 	        

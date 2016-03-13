@@ -108,7 +108,7 @@ public class OptionHandler {
             // 一次读入一行，直到读入null为文件结束
             while ((tempString = reader.readLine()) != null) {
             	String [] kv=tempString.split(" ");
-            	if(kv.length<2)
+            	if(kv.length<2||kv[1]==null)
             		lastOptions.put(kv[0], null);
             	else{
             		lastOptions.put(kv[0], kv[1]);

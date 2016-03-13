@@ -1,6 +1,6 @@
 prefix-code text
-config text
-use-pipe-from text
+config filename
+use-pipe-from filename
 preserve-case boolean
 stoplist-file text
 extra-stopwords text
