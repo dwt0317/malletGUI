@@ -203,7 +203,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				String fileBeRead = getPath();
-				txtOutput.setText(fileBeRead+"\n");
+				txtOutput.setText(fileBeRead);
 			}
 		});
 		btnBrowse.setBackground(UIManager.getColor("Button.background"));
@@ -436,7 +436,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String fileBeRead = getPath();
-				textField.setText(fileBeRead+"\n");
+				textField.setText(fileBeRead);
 			}
 		});
 		button_2.setFont(new Font("Cambria", Font.PLAIN, 16));
@@ -468,7 +468,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String fileBeRead = getPath();
-				textField_1.setText(fileBeRead+"\n");
+				textField_1.setText(fileBeRead);
 			}
 		});
 		button.setFont(new Font("Cambria", Font.PLAIN, 16));
@@ -580,7 +580,7 @@ public class MainWindow extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				String fileBeRead = getPath();
-				seq_model_txt.setText(fileBeRead+"\n");
+				seq_model_txt.setText(fileBeRead);
 			}
 		});
 		seq_model_btn.setFont(new Font("Cambria", Font.PLAIN, 16));
