@@ -1,6 +1,3 @@
 # malletGUI
 
-Hello world
-
-
-jjjjjjjj
+*This is a GUI appliaction for MALLET*
