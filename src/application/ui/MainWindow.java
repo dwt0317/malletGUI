@@ -30,6 +30,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 
 import Function.Importing;
+import Function.Optimizable;
 import Function.SeqTagging;
 import Function.TopicModeling;
 import Function.trainerClassifier;
@@ -114,6 +115,8 @@ public class MainWindow extends JFrame{
 	private JComboBox seq_train_combo;
 	private JRadioButton rdbtnTrainTopics;
 	private JRadioButton rdbtnInferTopics;
+	private JTextField txtParam;
+	private JTextField txtParam_1;
 	
 	public MainWindow() {
 		String[] tf_choice={"false","true"};
@@ -665,6 +668,71 @@ public class MainWindow extends JFrame{
 		tmBtnOptions.setBounds(395, 38, 114, 29);
 		panel_topic.add(tmBtnOptions);
 		
+		//	Optimization
+		JPanel panel_Opt = new JPanel();
+		panel_Opt.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				txtOutput.setEnabled(false);
+			}
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				txtOutput.setEnabled(true);
+			}
+		});
+		panel_Opt.setLayout(null);
+		tabbedPane.addTab("Optimization", null, panel_Opt, null);
+		
+		txtParam = new JTextField();
+		txtParam.setBorder(null);
+		txtParam.setFont(new Font("Candara", Font.PLAIN, 16));
+		txtParam.setBackground(UIManager.getColor("Button.background"));
+		txtParam.setText("Param 1:");
+		txtParam.setBounds(68, 35, 112, 29);
+		panel_Opt.add(txtParam);
+		txtParam.setColumns(10);
+		
+		txtParam_1 = new JTextField();
+		txtParam_1.setBorder(null);
+		txtParam_1.setFont(new Font("Cambria", Font.PLAIN, 16));
+		txtParam_1.setBackground(UIManager.getColor("Button.background"));
+		txtParam_1.setText("Param 2:");
+		txtParam_1.setBounds(68, 111, 112, 29);
+		panel_Opt.add(txtParam_1);
+		txtParam_1.setColumns(10);
+		
+		final SpinnerNumberModel seq_spinner_1 = new SpinnerNumberModel(0.0, 0.0, 10000.0, 1.0);
+		JSpinner spinner_1 = new JSpinner(seq_spinner_1);
+		spinner_1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				System.out.println(seq_spinner_1.getValue());
+				Double x = (Double)seq_spinner_1.getNumber();
+				Optimizable.getInstance().setParam(x, 0);
+			}
+		});
+		spinner_1.setBounds(190, 34, 65, 29);
+		panel_Opt.add(spinner_1);
+		
+		final SpinnerNumberModel seq_spinner_2 = new SpinnerNumberModel(0.0, 0.0, 10000.0, 1.0);
+		JSpinner spinner_2 = new JSpinner(seq_spinner_2);
+		spinner_2.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				System.out.println(seq_spinner_2.getValue());
+				Double x = (Double)seq_spinner_2.getNumber();
+				Optimizable.getInstance().setParam(x, 1);
+			}
+		});
+		spinner_2.setBounds(190, 111, 65, 29);
+		panel_Opt.add(spinner_2);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//output
 		JScrollPane panel_output = new JScrollPane();
@@ -841,6 +909,13 @@ public class MainWindow extends JFrame{
 			
 			result=tm.run();
 			print2text(result,"Topic modeling");
+		}
+		
+		//topic modeling
+		else if(tabbedPane.getSelectedIndex()==5){
+			Optimizable op = Optimizable.getInstance();
+			result = op.run();
+			print2text(result,"Optimization");
 		}
 	}
 	

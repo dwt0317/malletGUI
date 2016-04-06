@@ -6,7 +6,10 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import Function.OptimizerExample;
 import cc.mallet.fst.SimpleTagger;
+import cc.mallet.optimize.LimitedMemoryBFGS;
+import cc.mallet.optimize.Optimizer;
 import cc.mallet.topics.tui.InferTopics;
 import cc.mallet.topics.tui.TopicTrainer;
 import cc.mallet.util.MalletLogger;
@@ -52,7 +55,7 @@ public class RunKit {
 			cmd+=arg+" ";
 		info[2] = cmd;
 		info[3] = "0";
-		
+		String msg = "";
 		
 //		PrintStream oldPrintStream = System.out;        //将原来的System.out交给printStream 对象保存
 //		PrintStream oldErrorStream= System.err;
@@ -99,10 +102,22 @@ public class RunKit {
 	        }		        
 	        else if(function.equals("infer_topics")){
 	        	InferTopics.main(args);
-	        }	
+	        }
+	        else if(function.equals("Optimization")){
+	        	OptimizerExample optimizable = new OptimizerExample(args);
+	            Optimizer optimizer = new LimitedMemoryBFGS(optimizable);
+	            boolean converged = false;
+
+	            try {
+	                converged = optimizer.optimize();
+	            } catch (IllegalArgumentException e) {
+	                        
+	            }
+	            msg = "Parameter:\n("+optimizable.getParameter(0)+","+optimizable.getParameter(1)+")\n";
+	        }
 	        
 	        
-	        info[0]=bos.toString(); //暂时为空
+	        info[0]=msg+bos.toString(); //暂时为空
 	        info[1]=bosErr.toString();
 	        bosErr.reset();
 	        bos.reset();
