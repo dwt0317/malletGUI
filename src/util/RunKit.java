@@ -8,6 +8,7 @@ import java.util.logging.SimpleFormatter;
 
 import Function.OptimizerExample;
 import cc.mallet.fst.SimpleTagger;
+import cc.mallet.grmm.learning.GenericAcrfTui;
 import cc.mallet.optimize.LimitedMemoryBFGS;
 import cc.mallet.optimize.Optimizer;
 import cc.mallet.topics.tui.InferTopics;
@@ -115,7 +116,9 @@ public class RunKit {
 	            }
 	            msg = "Parameter:\n("+optimizable.getParameter(0)+","+optimizable.getParameter(1)+")\n";
 	        }
-	        
+	        else if(function.equals("GRMM")){
+	        	GenericAcrfTui.main(args);
+	        }
 	        
 	        info[0]=msg+bos.toString(); //暂时为空
 	        info[1]=bosErr.toString();

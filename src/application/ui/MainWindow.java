@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 
+import Function.GRMM;
 import Function.Importing;
 import Function.Optimizable;
 import Function.SeqTagging;
@@ -117,6 +118,9 @@ public class MainWindow extends JFrame{
 	private JRadioButton rdbtnInferTopics;
 	private JTextField txtParam;
 	private JTextField txtParam_1;
+	private JTextField textTrainField;
+	private JTextField textTestField;
+	private JTextField textModeField;
 	
 	public MainWindow() {
 		String[] tf_choice={"false","true"};
@@ -683,6 +687,9 @@ public class MainWindow extends JFrame{
 		panel_Opt.setLayout(null);
 		tabbedPane.addTab("Optimization", null, panel_Opt, null);
 		
+		
+		
+		
 		txtParam = new JTextField();
 		txtParam.setBorder(null);
 		txtParam.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -728,7 +735,117 @@ public class MainWindow extends JFrame{
 		
 		
 		
+		//	GRMM
+		JPanel panel_GRMM = new JPanel();
+		panel_GRMM.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				txtOutput.setEnabled(false);
+			}
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				txtOutput.setEnabled(true);
+			}
+		});
+		panel_GRMM.setLayout(null);
+		tabbedPane.addTab("GRMM", null, panel_GRMM, null);
 		
+		JTextField txtTrainPath = new JTextField();
+		txtTrainPath.setFont(new Font("Cambria", Font.PLAIN, 16));
+		txtTrainPath.setBorder(null);
+		txtTrainPath.setBackground(UIManager.getColor("Button.background"));
+		txtTrainPath.setText("Test Path:");
+		txtTrainPath.setBounds(10, 10, 122, 25);
+		panel_GRMM.add(txtTrainPath);
+		txtTrainPath.setColumns(10);
+		
+		textTrainField = new JTextField();
+		textTrainField.setBounds(142, 57, 151, 25);
+		panel_GRMM.add(textTrainField);
+		textTrainField.setEditable(false);
+		textTrainField.setColumns(10);
+		
+		
+		JButton button_3 = new JButton("Browse");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		button_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String fileBeRead = getPath();
+				textTestField.setText(fileBeRead);
+			}
+		});
+		button_3.setFont(new Font("Cambria", Font.PLAIN, 16));
+		button_3.setBackground(SystemColor.menu);
+		button_3.setBounds(404, 10, 91, 25);
+		panel_GRMM.add(button_3);
+		
+		JTextField txtGRMMtrainPath = new JTextField();
+		txtGRMMtrainPath.setBorder(null);
+		txtGRMMtrainPath.setFont(new Font("Cambria", Font.PLAIN, 16));
+		txtGRMMtrainPath.setBackground(UIManager.getColor("Button.background"));
+		txtGRMMtrainPath.setText("Model Path:");
+		txtGRMMtrainPath.setBounds(10, 102, 122, 25);
+		panel_GRMM.add(txtGRMMtrainPath);
+		txtGRMMtrainPath.setColumns(10);
+		
+		textTestField = new JTextField();
+		textTestField.setBounds(142, 11, 151, 25);
+		panel_GRMM.add(textTestField);
+		textTestField.setEditable(false);
+		textTestField.setColumns(10);
+		
+		JButton button2 = new JButton("Browse");
+		button2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		button2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String fileBeRead = getPath();
+				textTrainField.setText(fileBeRead);
+			}
+		});
+		button2.setFont(new Font("Cambria", Font.PLAIN, 16));
+		button2.setBackground(SystemColor.menu);
+		button2.setBounds(404, 56, 91, 25);
+		panel_GRMM.add(button2);
+		
+		JTextField txtModePath = new JTextField();
+		txtModePath.setBorder(null);
+		txtModePath.setFont(new Font("Cambria", Font.PLAIN, 16));
+		txtModePath.setBackground(UIManager.getColor("Button.background"));
+		txtModePath.setText("Train Path:");
+		txtModePath.setBounds(10, 56, 122, 25);
+		panel_GRMM.add(txtModePath);
+		txtModePath.setColumns(10);
+		
+		textModeField = new JTextField();
+		textModeField.setBounds(142, 103, 151, 25);
+		panel_GRMM.add(textModeField);
+		textModeField.setEditable(false);
+		textModeField.setColumns(10);
+		
+		JButton button3 = new JButton("Browse");
+		button3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		button3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String fileBeRead = getPath();
+				textModeField.setText(fileBeRead);
+			}
+		});
+		button3.setFont(new Font("Cambria", Font.PLAIN, 16));
+		button3.setBackground(SystemColor.menu);
+		button3.setBounds(404, 102, 91, 25);
+		panel_GRMM.add(button3);
 		
 		
 		
@@ -911,11 +1028,20 @@ public class MainWindow extends JFrame{
 			print2text(result,"Topic modeling");
 		}
 		
-		//topic modeling
+		//optimization
 		else if(tabbedPane.getSelectedIndex()==5){
 			Optimizable op = Optimizable.getInstance();
 			result = op.run();
 			print2text(result,"Optimization");
+		}
+		//optimization
+		else if(tabbedPane.getSelectedIndex()==6){
+			GRMM gp = GRMM.getInstance();
+			gp.setTrain(textTrainField.getText());
+			gp.setTest(textTestField.getText());
+			gp.setModel(textModeField.getText());
+			result = gp.run();
+			print2text(result,"GRMM");
 		}
 	}
 	
