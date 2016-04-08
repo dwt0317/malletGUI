@@ -58,8 +58,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import javax.swing.JTextArea;
 
-import backup.ImportDir;
-import backup.ImportFile;
 
 import java.awt.SystemColor;
 import java.awt.CardLayout;
@@ -175,8 +173,6 @@ public class MainWindow extends JFrame{
 		
 		txtInput = new JTextField();
 		
-		//		import默认为程序当前目录
-		ImportDir.getInstance().setImportPath(System.getProperty("user.dir"));
 		txtInput.setBounds(135, 10, 275, 25);
 		panel_dataInput.add(txtInput);
 		txtInput.setColumns(10);
