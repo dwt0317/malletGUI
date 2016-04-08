@@ -242,6 +242,8 @@ public class AdvanceFrame extends JFrame {
 			Map.Entry entry = (Map.Entry) iter.next();
 			if(entry.getValue()==null){
 				System.out.println(entry.getKey());
+				if(i<optionPanel.getComponentCount()-1&&optionPanel.getComponent(i+1) instanceof JButton)
+					i+=1;
 				i+=2;
 				continue;
 			}				
@@ -263,7 +265,7 @@ public class AdvanceFrame extends JFrame {
 				JTextField jtext =(JTextField)obj;
 				jtext.setText(val);
 			}
-			if(iter.hasNext()&&optionPanel.getComponent(i+1) instanceof JButton)
+			if(i<optionPanel.getComponentCount()-1&&optionPanel.getComponent(i+1) instanceof JButton)
 				i+=1;
 			i+=2;
 		}

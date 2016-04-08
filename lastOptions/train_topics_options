@@ -4,7 +4,7 @@ output-topic-keys
 delta
 output-model-interval
 use-pam
-output-state
+output-state G:\Exchange\mallet\malleGUI4.0\malletGUI\out_state.gz
 xml-topic-report
 use-symmetric-alpha
 alpha
@@ -27,7 +27,7 @@ evaluator-filename
 input
 optimize-burn-in
 optimize-interval
-inferencer-filename
+inferencer-filename G:\Exchange\mallet\malleGUI4.0\malletGUI\inf.mallet
 random-seed
 num-topics
 show-topics-interval

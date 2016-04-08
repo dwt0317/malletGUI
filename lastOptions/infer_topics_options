@@ -1,8 +1,8 @@
 sample-interval
 burn-in
-output-doc-topics G:\Exchange\mallet\malletGUI2.0\in_topic.txt 
+output-doc-topics G:\Exchange\mallet\malleGUI4.0\malletGUI\222s.txt 
 num-iterations
-inferencer G:\Exchange\mallet\malletGUI2.0\infer.mallet 
+inferencer G:\Exchange\mallet\malleGUI4.0\malletGUI\inf.mallet
 random-seed
 doc-topics-max
 config
