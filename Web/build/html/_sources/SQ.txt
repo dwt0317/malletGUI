@@ -1,0 +1,80 @@
+.. malletGUI documentation master file, created by
+   sphinx-quickstart on Fri Apr 22 10:25:51 2016.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+######################
+Working with sequences
+######################
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* `Importing Data <import.html>`_
+* `Classification <classify.html>`_
+* `Sequence Tagging <SQ.html>`_
+* `Topic Modeling <TM.html>`_
+* `Optimization <OP.html>`_
+* `Graphical Models <GM.html>`_
+* :ref:`search`
+
+Working with sequences
+======================
+
+Many data sets, such as text collections and genetic databases, consist of sequences of distinct values. MALLET includes implementations of widely used sequence algorithms including hidden Markov models (HMMs) and linear chain conditional random fields (CRFs). These algorithms support applications such as gene finding and named-entity recognition.
+
+For a general introduction to CRFs, there are tutorials such as `Sutton and McCallum (2006) <http://homepages.inf.ed.ac.uk/csutton/publications/crf-tutorial.pdf>`_. A developer's guide is available for `sequence tagging in MALLET <http://homepages.inf.ed.ac.uk/csutton/publications/crf-tutorial.pdf>`_. The MALLET Javadoc API contains information for programmers interested in incorporating sequence tagging into their own work, in the cc.mallet.fst package. For semi-supervised sequence labeling, see this `tutorial <http://mallet.cs.umass.edu/semi-sup-fst.php>`_.
+
+SimpleTagger
+============
+
+SimpleTagger is a command line interface to the MALLET Conditional Random Field (CRF) class. Here we present an extremely simple example showing the use of SimpleTagger to label a sequence of text.
+
+Your input file should be in the following format:
+        - `Bill CAPITALIZED noun`
+        - `slept non-noun`
+        - `here LOWERCASE STOPWORD non-noun`
+
+That is, each line represents one token, and has the format:
+ 
+`feature1 feature2 ... featuren label`
+
+Then you can train a CRF using SimpleTagger like this (on one line):
+
+`hough@gobur:~/tagger-test$ java -cp "/home/hough/mallet/class:/home/hough/mallet/lib/mallet-deps.jar" cc.mallet.fst.SimpleTagger --train true --model-file nouncrf  sample`
+
+This assumes that mallet has been installed and built in /home/hough/mallet. Note that we specify the MALLET build directory (/home/hough/mallet/class) and the necessary MALLET jar files (/home/hough/mallet/mallet-deps.jar) in the classpath. The `--train true` option specifies that we are training, and `--model-file nouncrf` specifies where we would like the CRF written to.
+
+This produces a trained CRF in the file "nouncrf".
+
+If we have a file "stest" we would like labelled:
+
+`CAPITAL Al`
+        - `slept`
+        - `here`
+
+we can do this with the CRF in file nouncrf by typing:
+
+`hough@gobur:~/tagger-test$ java -cp "/home/hough/mallet/class:/home/hough/mallet/lib/mallet-deps.jar" cc.mallet.fst.SimpleTagger --model-file nouncrf  stest`
+
+which produces the following output:
+
+`Number of predicates: 5`
+`noun CAPITAL Al`
+`non-noun  slept`
+`non-noun  here`
+
+To use multi-threaded CRF training, specify the number of threads with --threads:
+
+`hough@gobur:~/tagger-test$ java -cp "/home/hough/mallet/class:/home/hough/mallet/lib/mallet-deps.jar" cc.mallet.fst.SimpleTagger --train true --model-file nouncrf --threads 8 sample`
+
+A list of all the options available with SimpleTagger can be obtained by specifying the --help option:
+
+`hough@gobur:~/tagger-test$ java -cp "/home/hough/mallet/class:/home/hough/mallet/lib/mallet-deps.jar" cc.mallet.fst.SimpleTagger --help`
+

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Topic Modeling &mdash; malletGUI 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="malletGUI 1.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="topic-modeling">
+<h1>Topic Modeling<a class="headerlink" href="#topic-modeling" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference external" href="import.html">Importing Data</a></li>
+<li><a class="reference external" href="classify.html">Classification</a></li>
+<li><a class="reference external" href="SQ.html">Sequence Tagging</a></li>
+<li><a class="reference external" href="TM.html">Topic Modeling</a></li>
+<li><a class="reference external" href="OP.html">Optimization</a></li>
+<li><a class="reference external" href="GM.html">Graphical Models</a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>Topic Modeling<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Topic models provide a simple way to analyze large volumes of unlabeled text. A &#8220;topic&#8221; consists of a cluster of words that frequently occur together. Using contextual clues, topic models can connect words with similar meanings and distinguish between uses of words with multiple meanings. For a general introduction to topic modeling, see for example <a class="reference external" href="http://psiexp.ss.uci.edu/research/papers/SteyversGriffithsLSABookFormatted.pdf">Probabilistic Topic Models</a> by Steyvers and Griffiths (2007).</p>
+<p>Shawn Graham, Scott Weingart, and Ian Milligan have written an excellent <a class="reference external" href="http://programminghistorian.org/lessons/topic-modeling-and-mallet">tutorial on Mallet topic modeling</a>.</p>
+<p>For an example showing how to use the Java API to import data, train models, and infer topics for new documents, see the <a class="reference external" href="http://mallet.cs.umass.edu/topics-devel.php">topic model developer&#8217;s guide</a>.</p>
+<p>The MALLET topic model package includes an extremely fast and highly scalable implementation of Gibbs sampling, efficient methods for document-topic hyperparameter optimization, and tools for inferring topics for new documents given trained models.</p>
+<p><strong>Importing Documents:</strong> Once MALLET has been <a class="reference external" href="http://mallet.cs.umass.edu/download.php">downloaded</a> and installed, the next step is to import text files into MALLET&#8217;s internal format. The following instructions assume that the documents to be used as input to the topic model are in separate files, in a directory that contains no other files. See the introduction to <a class="reference external" href="import.html">importing data in MALLET</a> for more information and other import methods.</p>
+<p>Change to the MALLET directory and run the command</p>
+<p><cite>bin/mallet import-dir &#8211;input /data/topic-input &#8211;output topic-input.mallet &#8211;keep-sequence &#8211;remove-stopwords</cite></p>
+<p>To learn more about options for the import-dir command use the argument <cite>&#8220;&#8211;help&#8221;</cite>.</p>
+<p><strong>Building Topic Models:</strong> Once you have imported documents into MALLET format, you can use the train-topics command to build a topic model, for example:</p>
+<p><cite>bin/mallet train-topics &#8211;input topic-input.mallet  &#8211;num-topics 100 &#8211;output-state topic-state.gz</cite></p>
+<p>Use the option <cite>&#8211;help</cite> to get a complete list of options for the train-topics command. Commonly used options include:</p>
+<p><cite>&#8211;input [FILE]</cite> Use this option to specify the MALLET collection file you created in the previous step.</p>
+<p><cite>&#8211;num-topics [NUMBER]</cite> The number of topics to use. The best number depends on what you are looking for in the model. The default (10) will provide a broad overview of the contents of the corpus. The number of topics should depend to some degree on the size of the collection, but 200 to 400 will produce reasonably fine-grained results.</p>
+<p><cite>&#8211;num-iterations [NUMBER]</cite> The number of sampling iterations should be a trade off between the time taken to complete sampling and the quality of the topic model.</p>
+</div>
+<div class="section" id="hyperparameter-optimization">
+<h2>Hyperparameter Optimization<a class="headerlink" href="#hyperparameter-optimization" title="Permalink to this headline">¶</a></h2>
+<p><cite>&#8211;optimize-interval [NUMBER]</cite> This option turns on hyperparameter optimization, which allows the model to better fit the data by allowing some topics to be more prominent than others. Optimization every 10 iterations is reasonable.</p>
+<p><cite>&#8211;optimize-burn-in [NUMBER]</cite> The number of iterations before hyperparameter optimization begins. Default is twice the optimize interval.</p>
+</div>
+<div class="section" id="model-output">
+<h2>Model Output<a class="headerlink" href="#model-output" title="Permalink to this headline">¶</a></h2>
+<p><cite>&#8211;output-model [FILENAME]</cite> This option specifies a file to write a serialized MALLET topic trainer object. This type of output is appropriate for pausing and restarting training, but does not produce data that can easily be analyzed.</p>
+<p><cite>&#8211;output-state [FILENAME]</cite> Similar to output-model, this option outputs a compressed text file containing the words in the corpus with their topic assignments. This file format can easily be parsed and used by non-Java-based software. Note that the state file will be GZipped, so it is helpful to provide a filename that ends in .gz.</p>
+<p><cite>&#8211;output-doc-topics [FILENAME]</cite> This option specifies a file to write the topic composition of documents. See the <cite>&#8211;help</cite> options for parameters related to this file.</p>
+<p><cite>&#8211;output-topic-keys [FILENAME]</cite> This file contains a &#8220;key&#8221; consisting of the top k words for each topic (where k is defined by the <cite>&#8211;num-top-words</cite> option). This output can be useful for checking that the model is working as well as displaying results of the model. In addition, this file reports the Dirichlet parameter of each topic. If hyperparamter optimization is turned on, this number will be roughly proportional to the overall portion of the collection assigned to a given topic.</p>
+</div>
+<div class="section" id="topic-inference">
+<h2>Topic Inference<a class="headerlink" href="#topic-inference" title="Permalink to this headline">¶</a></h2>
+<p><cite>&#8211;inferencer-filename [FILENAME]</cite> Create a topic inference tool based on the current, trained model. Use the MALLET command <cite>bin/mallet infer-topics &#8211;help</cite> to get information on using topic inference.</p>
+<p>Note that you must make sure that the new data is compatible with your training data. Use the option <cite>&#8211;use-pipe-from [MALLET TRAINING FILE]</cite> in the MALLET command <cite>bin/mallet import-file or import-dir</cite> to specify a training file.</p>
+</div>
+<div class="section" id="topic-held-out-probability">
+<h2>Topic Held-out probability<a class="headerlink" href="#topic-held-out-probability" title="Permalink to this headline">¶</a></h2>
+<p><cite>&#8211;evaluator-filename [FILENAME]</cite> The previous section describes how to get topic proportions for new documents. We often want to estimate the log probability of new documents, marginalized over all topic configurations. Use the MALLET command <cite>bin/mallet evaluate-topics &#8211;help</cite> to get information on using held-out probability estimation.</p>
+<p>As with topic inference, you must make sure that the new data is compatible with your training data. Use the option <cite>&#8211;use-pipe-from [MALLET TRAINING FILE]</cite> in the MALLET command <cite>bin/mallet import-file or import-dir</cite> to specify a training file.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Topic Modeling</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#id2">Topic Modeling</a></li>
+<li><a class="reference internal" href="#hyperparameter-optimization">Hyperparameter Optimization</a></li>
+<li><a class="reference internal" href="#model-output">Model Output</a></li>
+<li><a class="reference internal" href="#topic-inference">Topic Inference</a></li>
+<li><a class="reference internal" href="#topic-held-out-probability">Topic Held-out probability</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/TM.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Tingting G..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/TM.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
