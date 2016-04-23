@@ -47,55 +47,37 @@
             <div class="primary col-md-8 col-sm-12 col-xs-12">
                 <section class="about section">
                     <div class="section-inner">
-                        <h2 class="heading">About Mallet</h2>
+                        <h2 class="heading">Importing</h2>
                         <div class="content">
-                            <p>MALLET is a Java-based package for statistical natural language processing, document classification, clustering, topic modeling, information extraction, and other machine learning applications to text. For more information about Mallet, please visit <a href=http://mallet.cs.umass.edu/>[Mallet homepage]</a></p>
+                            <p>MALLET represents data as lists of "instances". All MALLET instances include a data object. An instance can also include a name and (in classification contexts) a label. For example, if the application is guessing the language of web pages, an instance might consist of a vector of word counts (data), the URL of the page (name) and the language of the page (label).</p>
                          
                         </div><!--//content-->
                     </div><!--//section-inner-->                 
                 </section><!--//section-->
     
-               <section class="latest section">
-                    <div class="section-inner">
-                        <h2 class="heading">Purpose of MalletGUI</h2>
-                        <div class="content">    
-                                               
-                            <div class="item featured text-center">
-                              <div class="desc text-left">                                    
-                                <p>For more convenience, the main  purpose of this project is to design and build a graphical interface of MALLET,  which is easy to input commands and select options. The most important thing is  that the graphical interface is really practical for both common users and  beginners.</p>
-</div><!--//desc--></div><!--//item-->
-                            
-                        </div>
-                    </div><!--//section-inner-->                 
-                </section><!--//section-->
+
                 
                 
                 <section class="projects section">
                   <div class="section-inner">
-                        <h2 class="heading">Functions</h2>
+                        <h2 class="heading">Steps</h2>
                     <div class="content">
                             <div class="item">
-                                <h3 class="title"><a name="_Toc448271899">Importing data</a><a href="#"></a></h3>
-                                <p>Before  implementing some functions, the first step is to import data into unique  MALLET format. There are two primary methods for importing data, the first is  importing a directory, and the second is importing a single file. Then  the new generated MALLET file, such as web.mallet can be used in document  classification.                          </p>
+                                <h3 class="title"><a>Importing data</a></h3>
+                                <p><img width="500" height="368" src="assets\images\importing\importing_clip_image002.jpg" alt="5.jpg"> <br>
+                              <img width="500" height="180" src="assets\images\importing\importing_clip_image004.jpg" alt="12.jpg"></p>
+                              <p>&nbsp;</p>
+                              <p>There  are also other options can be seen by clicking the button &lsquo;<em>Advance&rsquo;</em>.<br>
+                                <img width="500" height="370" src="assets\images\importing\importing_clip_image005.jpg" alt="7.jpg"></p>
+                              <p>&nbsp;</p>
+                              <p>At  the end, clicking the button &lsquo;<em>Run</em>&rsquo;,  then the data is imported and the result can be displayed in the &lsquo;<em>output</em>&rsquo;.<br>
+                                <img width="500" height="251" src="assets\images\importing\importing_clip_image007.jpg" alt="8.jpg"></p>
+<p>&nbsp;</p>
+                                
                       </div>
                       <!--//item-->
-                            <div class="item">
-                                <h3 class="title"><a name="_Toc448271900">Classification</a><a href="#"></a></h3>
-                                <p>Document  classification means distinguishing between a fixed set of classes based on  labeled training examples. MALLET includes several classification algorithms,  such as Naïve Bayes, Maximum Entropy and Decision Tree, to train a classifier.  Based on the classifier, users can apply a saved classifier to test new  unlabeled data.                      </p>
-                      </div>
-                      <!--//item-->
-                      <div class="item">
-                              <h3 class="title"><a name="_Toc448271901">Sequence tagging</a><a href="#"></a></h3>
-                                <p class="summary">In natural language processing, sequence tagging means extracting information  from the text, which aims to mark a sequence of words, such as a none or a  non-none. Through analyzing the context, this function is used to judge the  part of speech</p>
-                        <p class="summary">&nbsp;</p>
-                                <h3 class="title"><a name="_Toc448271902">Topic modeling</a></h3>
-                                <p>Topic  models provide a simple way to analyze large volumes of unlabeled text. That  is, this function is used to extract topics from a number of articles through  the analysis of probability distribution of words. A &lsquo;topic&rsquo; consists of a  cluster of words that frequently occur together. Using contextual clues, topic  models can connect words with similar meanings and distinguish between uses of  words with multiple meanings. For example, in the article which is related to  medical care, the presence of the probability of the words, such as medicine,  cure, are very high. After importing text files into unique MALLET format, the  topic models can be built. Besides, a topic inference tool can also be used  based on the current, trained model.</p>
-                        <p>&nbsp;</p>
-                                <h3 class="title"><a name="_Toc448271903">Optimization</a></h3>
-                                <p>MALLET  includes methods for numerical optimizing functions. The primary use for  numerical optimization in machine learning is to find parameters that maximize  a log-likelihood function given observed data. This software gives a demo of putting  two parameters to achieve the function.</p>
-                        <p>&nbsp;</p>
-                        <h3 class="title"><a name="_Toc448271904">Graphical models</a></h3>
-                      <p>GRMM is  short for Graphical Models in MALLET which is an add-on package to MALLET and  contains support for performing inference and learning in graphical models of  arbitrary structure. GRMM supports arbitrary factor graphs and it includes  efficient implementations of several inference algorithms. In this software, GRMM  can be achieved by selecting model path, train path and test path. All the  paths should comply with specific format.</p></div></div></div>
+                            <div class="item"></div>
+                    <div class="item"></div></div></div>
                     <!--//section-inner-->                 
                 </section><!--//section-->
                 
@@ -109,14 +91,13 @@
                         <h2 class="heading">Navigation</h2>
                         <div class="content">
                             <ul class="list-unstyled">
-                                <li><a href="./importing.html" target="_blank"><i class="fa fa-external-link"></i> Importing</a></li>
+                                 <li><a href="./importing.html" target="_blank"><i class="fa fa-external-link"></i> Importing</a></li>
                                 <li><a href="./classification.html" target="_blank"><i class="fa fa-external-link"></i> Classification</a></li>
                                 <li><a href="./sequence_tagging.html" target="_blank"><i class="fa fa-external-link"></i>Sequence tagging</a></li>
                                 <li><a href="./topic_modeling.html" target="_blank"><i class="fa fa-external-link"></i> Topic modeling</a></li>
                                 
                                 <li><a href="./optimization.html" target="_blank"><i class="fa fa-external-link"></i> Optimization</a></li>
                                 <li><a href="./graphical_models.html" target="_blank"><i class="fa fa-external-link"></i> Graphical models</a></li>
-     
                             </ul>
                       </div><!--//content-->
                     </div><!--//section-inner-->
@@ -129,8 +110,8 @@
     <!-- ******FOOTER****** --> 
     <footer class="footer">
         <div class="container text-center">
-                <small class="copyright"><a href="http://www.cssmoban.com/" title="网页模板" target="_blank"></a></small>Built by Tingting Guo</div>
-        <!--//container-->
+                <small class="copyright"><a href="http://www.cssmoban.com/" title="网页模板" target="_blank"></a></small>
+        Built by Tingting Guo</div><!--//container-->
     </footer><!--//footer-->
  
     <!-- Javascript -->          
