@@ -1,3 +1,0 @@
-new ACRF.BigramTemplate (0)
-new ACRF.BigramTemplate (1)
-new ACRF.PairwiseFactorTemplate (0,1)
